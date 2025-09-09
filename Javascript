@@ -1,0 +1,57 @@
+task.js
+class Task {
+    constructor(text) {
+        this.text = text;
+        this.completed = false;
+    }
+
+    toggleCompleted() {
+        this.completed = !this.completed;
+    }
+}
+
+export default Task;
+taskList.js
+import Task from './task.js';
+
+class TaskList {
+    constructor() {
+        this.tasks = [];
+    }
+
+    addTask(text) {
+        const task = new Task(text);
+        this.tasks.push(task);
+    }
+
+    deleteTask(index) {
+        this.tasks.splice(index, 1);
+    }
+
+    toggleTaskCompleted(index) {
+        this.tasks[index].toggleCompleted();
+    }
+
+    getTasks() {
+        return this.tasks;
+    }
+}
+
+export default TaskList;
+main.js
+import TaskList from './taskList.js';
+
+const taskInput = document.getElementById('task-input');
+const addTaskBtn = document.getElementById('add-task-btn');
+const taskListElement = document.getElementById('task-list');
+
+const taskList = new TaskList();
+
+addTaskBtn.addEventListener('click', addTask);
+
+function addTask() {
+    const taskText = taskInput.value.trim();
+    if (taskText) {
+        taskList.addTask(taskText);
+        renderTasks();
+        taskInput
